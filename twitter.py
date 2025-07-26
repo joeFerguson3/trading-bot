@@ -3,7 +3,7 @@ import time
 from datetime import datetime, timedelta, timezone
 
 # Configuration
-API_KEY = ""
+API_KEY = "c00f411d83684781ae233b7483a4695c"
 TARGET_ACCOUNT = "BBCNews"  # The account to monitor
 CHECK_INTERVAL = 300 # Time between each check
 LAST_CHECKED_TIME = datetime.now(timezone.utc) - timedelta(hours=1) # Sets last checked time to 1hr ago
