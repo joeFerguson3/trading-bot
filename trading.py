@@ -1,14 +1,23 @@
 from alpaca_trade_api.rest import REST, TimeFrame
+from dotenv import load_dotenv
+import os
 
 # Credentials
-
+load_dotenv()
+API_KEY = os.getenv("ALPACA_KEY")
+SECRET_KEY = os.getenv("ALPACA_SECRET_KEY")
+print(API_KEY)
+print(SECRET_KEY)
 BASE_URL = 'https://paper-api.alpaca.markets'
 
 api = REST(API_KEY, SECRET_KEY, base_url=BASE_URL)
 
+
+price = api.get_latest_quote('AAPL') # Current price of stock
+price = float(price.ask_price)
 symbol = 'AAPL'
 qty = 10
-sell_at = 
+stop_price = round(price * 0.9, 2) # Price to sell stock at
 
 # Buys stock
 order = api.submit_order(
@@ -26,8 +35,8 @@ sell = api.submit_order(
     side='sell',
     type='stop_limit',
     time_in_force='gtc',
-    stop_price=180.00,     # triggers the order
-    limit_price=179.50 
+    stop_price=stop_price,
+    limit_price=round(stop_price * 0.97, 2)
 )
 
 print("Order submitted:")
