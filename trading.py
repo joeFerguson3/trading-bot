@@ -16,28 +16,18 @@ api = REST(API_KEY, SECRET_KEY, base_url=BASE_URL)
 price = api.get_latest_quote('AAPL') # Current price of stock
 price = float(price.ask_price)
 symbol = 'AAPL'
-qty = 10
+qty = 3
 stop_price = round(price * 0.9, 2) # Price to sell stock at
 
-# Buys stock
 order = api.submit_order(
     symbol=symbol,
     qty=qty,
     side='buy',
     type='market',
-    time_in_force='fok'
-)
-
-# Sets stop limit
-sell = api.submit_order(
-    symbol=symbol,
-    qty=qty,
-    side='sell',
-    type='stop_limit',
     time_in_force='gtc',
-    stop_price=stop_price,
-    limit_price=round(stop_price * 0.97, 2)
+    order_class='bracket',
+    take_profit={'limit_price': round(price * 1.05, 2)}, # Sell at 5% increase
+    stop_loss={'stop_price': stop_price, 'limit_price': round(stop_price * 0.97, 2)}  # Stop loss
 )
 
 print("Order submitted:")
-print(order)
